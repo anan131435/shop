@@ -37,8 +37,7 @@ class _HomePageState extends State<HomePage> {
       height: 16,
       margin: const EdgeInsets.only(left: 10),
       padding: const EdgeInsets.only(left: 10),
-      decoration: const BoxDecoration(
-          border: Border(left: BorderSide(color: Colors.red, width: 5))),
+      decoration: const BoxDecoration(border: Border(left: BorderSide(color: Colors.red, width: 5))),
       child: Text(
         title,
         style: const TextStyle(color: Colors.black54),
@@ -59,9 +58,7 @@ class _HomePageState extends State<HomePage> {
                 height: 70,
                 width: 70,
                 margin: const EdgeInsets.only(right: 10),
-                child: Image.network(
-                    "https://www.itying.com/images/flutter/hot${index + 1}.jpg",
-                    fit: BoxFit.cover),
+                child: Image.network("https://www.itying.com/images/flutter/hot${index + 1}.jpg", fit: BoxFit.cover),
               ),
               Container(
                 padding: const EdgeInsets.only(top: 5),
@@ -76,8 +73,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _recProductItemWidget() {
-    var itemWidth = (window.physicalSize.width - 30) / 2;
+  Widget _recProductItemWidget(context) {
+    var itemWidth = (MediaQuery.of(context).size.width - 30) / 2;
+    print(MediaQuery.of(context).size.width);
     return Container(
       padding: const EdgeInsets.all(10),
       width: itemWidth,
@@ -90,17 +88,34 @@ class _HomePageState extends State<HomePage> {
             width: double.infinity,
             child: AspectRatio(
               aspectRatio: 1 / 1,
-              child: Image.network("", fit: BoxFit.cover),
+              child: Image.network("https://www.itying.com/images/flutter/list1.jpg", fit: BoxFit.cover),
             ),
           ),
           const Padding(
             padding: EdgeInsets.only(top: 10),
             child: Text("2022夏季连衣裙",
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.black54)),
+                maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black54)),
           ),
-
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text(
+                  "￥188",
+                  style: TextStyle(color: Colors.red),
+                ),
+                Text(
+                  "￥198",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14,
+                    decoration: TextDecoration.lineThrough,
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -108,30 +123,32 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        _swiperWidget(),
-        const SizedBox(height: 10),
-        _titleWidget("猜你喜欢"),
-        const SizedBox(height: 10),
-        _hotProductListWidget(),
-        const SizedBox(height: 10),
-        _titleWidget("热门推荐"),
-        Container(
-          padding: const EdgeInsets.all(10),
-          child: Wrap(
-            runSpacing: 10,
-            spacing: 10,
-            children: [
-              Container(),
-              Container(),
-              Container(),
-              Container(),
-              Container(),
-            ],
-          ),
-        )
-      ],
+    return SafeArea(
+      bottom: false,
+      child: ListView(
+        children: [
+          _swiperWidget(),
+          const SizedBox(height: 10),
+          _titleWidget("猜你喜欢"),
+          const SizedBox(height: 10),
+          _hotProductListWidget(),
+          const SizedBox(height: 10),
+          _titleWidget("热门推荐"),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Wrap(
+              runSpacing: 10,
+              spacing: 10,
+              children: [
+                _recProductItemWidget(context),
+                _recProductItemWidget(context),
+                _recProductItemWidget(context),
+                _recProductItemWidget(context),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
